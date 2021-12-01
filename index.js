@@ -1,27 +1,32 @@
-import express from "express";
-import bodyParser from "body-parser";
-import mongoose from "mongoose";
-import cors from "cors";
+require("dotenv").config();
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const homeRoute = require("./routes/home");
+const comicsRoute = require("./routes/comics");
+const authRoute = require("./routes/auth");
+const connectDb = require("./config/db");
 
 const app = express();
+app.use(express.json());
+app.use("/home", homeRoute);
+app.use("/comics", comicsRoute);
+app.use("/api/auth", authRoute);
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-const CONNECTION_URL =
-  "mongodb+srv://kamnotkam:Kamron23@cluster0.mlr06.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-const PORT = process.env.PORT || 3000;
+//connectDB
+connectDb();
 
-//mongoDB atlas
-mongoose
-  .connect(CONNECTION_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() =>
-    app.listen(PORT, (req, res) => {
-      console.log(`server running on port ${PORT}`);
-    })
-  )
-  .catch((error) => console.log(error.message));
+const PORT = process.env.PORT || 4000;
+
+app.get("/", (req, res) => {
+  res.redirect("/home");
+});
+
+app.listen(PORT, () => {
+  console.log(`server listening on port ${PORT}`);
+});

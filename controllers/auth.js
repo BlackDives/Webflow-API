@@ -15,7 +15,8 @@ exports.register = async (req, res, next) => {
       password,
     });
 
-    res.status(201).json({ success: true, user });
+    // res.status(201).json({ success: true, user });
+    sendToken(user, 201, res);
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -47,7 +48,8 @@ exports.login = async (req, res, next) => {
       res.status(404).json({ success: false, error: "Password is incorrect" });
     }
 
-    res.status(200).json({ success: true, token: "3hf74f" });
+    // res.status(200).json({ success: true, token: "3hf74f" });
+    sendToken(user, 201, res);
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

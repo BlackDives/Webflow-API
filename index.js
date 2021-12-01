@@ -6,6 +6,7 @@ const cors = require("cors");
 const homeRoute = require("./routes/home");
 const comicsRoute = require("./routes/comics");
 const authRoute = require("./routes/auth");
+const privateRoute = require("./routes/private");
 const connectDb = require("./config/db");
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use("/home", homeRoute);
 app.use("/comics", comicsRoute);
 app.use("/api/auth", authRoute);
+app.use("/api/private", privateRoute);
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));

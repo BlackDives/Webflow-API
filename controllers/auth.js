@@ -55,8 +55,31 @@ exports.login = async (req, res, next) => {
   }
 };
 
-exports.forgotPassword = (req, res, next) => {
-  res.send("Forgot password Route");
+exports.forgotPassword = async (req, res, next) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Email could not be sent" });
+    }
+
+    const resetToken = user.getResetToken();
+    await user.save();
+
+    const resetUrl = `http://localhost:3000/passwordrest/${resetToken}`;
+    const message = `
+    <h1>You have requested a password reset</h1>
+    <p>Please go to this link to reset your password</p>
+    <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+    `;
+
+    try {
+    } catch (error) {}
+  } catch (error) {}
 };
 exports.resetPassword = (req, res, next) => {
   res.send("Reset password Route");

@@ -10,6 +10,8 @@ exports.protect = async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(" ")[1];
   }
+  console.log(`token is ${token}`);
+  console.log(" ");
 
   if (!token) {
     return res
@@ -18,8 +20,11 @@ exports.protect = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(`Verify token: ${token} with secret ${process.env.JWT_SECRET}`);
     const user = await User.findById(decoded.id);
+    console.log(`user.id: ${decoded.id}`);
+    console.log(`The decoded: ${decoded}, the user: ${user}`);
 
     if (!user) {
       return res

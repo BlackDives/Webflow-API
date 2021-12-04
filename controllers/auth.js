@@ -2,6 +2,7 @@ const User = require("../models/Users");
 
 exports.register = async (req, res, next) => {
   const { username, email, password } = req.body;
+  console.log(`starting response ${res}`);
 
   try {
     console.log(req.body);
@@ -24,6 +25,7 @@ exports.register = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
+  console.log(`the res is ${req.body.email}`);
 
   if (!email || !password) {
     res
@@ -35,7 +37,6 @@ exports.login = async (req, res, next) => {
     console.log(req.body);
     console.log(`Data is email: ${email}, and password: ${password}`);
     const user = await User.findOne({ email }).select("+password");
-    console.log(`the user is ${user}`);
 
     if (!user) {
       res
@@ -47,7 +48,8 @@ exports.login = async (req, res, next) => {
     if (!isMatch) {
       res.status(404).json({ success: false, error: "Password is incorrect" });
     }
-
+    console.log(`the body right before it is sent ${res.body}`);
+    console.log(`the req.body ${req.body}`);
     // res.status(200).json({ success: true, token: "3hf74f" });
     sendToken(user, 201, res);
   } catch (error) {

@@ -22,7 +22,7 @@ const comicsRoute = require("./routes/comics");
 const authRoute = require("./routes/auth");
 const privateRoute = require("./routes/private");
 app.use("/home", homeRoute);
-app.use("/comics", comicsRoute);
+app.use("/api", comicsRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/private", privateRoute);
 
